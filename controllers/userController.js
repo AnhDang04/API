@@ -49,7 +49,7 @@ exports.login = async (req, res) => {
         }
 
         // Tạo JWT token
-        const token = jwt.sign({ id: user._id, role: user.role }, 'your_jwt_secret', { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id, role: user.role }, 'hihihaha', { expiresIn: '1h' });
 
         res.status(200).json({ token, user: { id: user._id, phone: user.phone, name: user.name, role: user.role } });
     } catch (error) {

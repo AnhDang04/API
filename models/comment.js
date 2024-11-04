@@ -19,7 +19,7 @@ const commentSchema = new mongoose.Schema({
         type: Number,
         min: 1,
         max: 5,
-        default: 5
+        default: 5  
     }
 }, { timestamps: true });
 
