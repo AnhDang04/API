@@ -4,7 +4,7 @@ const router = express.Router();
 const { register, login, getUser, updateUser } = require('../controllers/userController'); 
 const Upload = require("../config/upload");
 const { getListCategory, addCategory, updateCategory, deleteCategory } = require('../controllers/categoryController');
-const { getListProduct, addProduct, updateProduct, deleteProduct, getProductById } = require('../controllers/productController');
+const { getListProduct, addProduct, updateProduct, deleteProduct, getProductById, getProductsByCategoryId } = require('../controllers/productController');
 const { addToCart, viewCart, calculateSelectedTotal, removeProductFromCart  } = require('../controllers/cartController');
 const { authenticateUser } = require('../controllers/auth');
 const { getPaymentMethods, confirmOrder, getOrderDetails, getAllOrders, updateOrderStatus  } = require('../controllers/orderController');
@@ -15,7 +15,7 @@ const { addComment } = require('../controllers/commentController');
 router.post('/register', register);
 router.post('/login', login);
 router.get('/user/:id', getUser);
-router.put('/user/:id', updateUser);
+router.put('/user/:id', updateUser);    
 
 // category(danh mục sản phẩm)
 router.get('/categories', getListCategory);
@@ -26,6 +26,7 @@ router.delete('/categories/:id', deleteCategory);
 // product (sản phẩm)
 router.get('/products', getListProduct); 
 router.get('/products/:id', getProductById); 
+router.get('/products/category/:categoryId', getProductsByCategoryId);
 router.post('/products', Upload.single("imageUrl"), addProduct); 
 router.put('/products/:id', Upload.single("imageUrl"), updateProduct); 
 router.delete('/products/:id', deleteProduct); 

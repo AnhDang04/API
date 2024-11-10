@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const categorySchema = new mongoose.Schema({
+    id: { // Thêm trường id
+        type: String,
+        required: true,
+        unique: true // Có thể thêm unique nếu cần
+    },
     name: {
         type: String,
         required: true

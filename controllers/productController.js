@@ -31,6 +31,29 @@ exports.getProductById = async (req, res) => {
     }
 };
 
+// Hiển thị danh sách sản phẩm theo ID của category
+exports.getProductsByCategoryId = async (req, res) => {
+    const { categoryId } = req.params;
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+            return res.status(400).json({ message: "ID danh mục không hợp lệ!" });
+        }
+
+        const products = await Product.find({ categoryId }).sort({ createdAt: -1 });
+
+        if (products.length === 0) {
+            return res.status(404).json({ message: "Không có sản phẩm nào trong danh mục này" });
+        }
+
+        res.status(200).json(products);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Lỗi máy chủ" });
+    }
+};
+
+
 // Thêm sản phẩm mới
 exports.addProduct = async (req, res) => {
     try {
@@ -39,7 +62,7 @@ exports.addProduct = async (req, res) => {
         let imageUrl = null;
 
         if (file) {
-            imageUrl = `${req.protocol}://localhost:3000/uploads/${file.filename}`; // Đường dẫn hình ảnh
+            imageUrl = `${req.protocol}://192.168.1.249:3000/uploads/${file.filename}`; // Đường dẫn hình ảnh
         }
 
         const newProduct = new Product({
