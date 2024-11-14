@@ -162,8 +162,45 @@ exports.getAllOrders = async (req, res) => {
 };
 
 
-// orderController.js
+exports.getAllUsersOrders = async (req, res) => {
+    try {
+        // Lấy tất cả đơn hàng mà không lọc theo user
+        const orders = await Order.find().populate('user_id', 'username'); 
 
+        if (!orders.length) {
+            return res.status(404).json({ message: "Không có đơn hàng nào." });
+        }
+
+        // Lấy thông tin chi tiết cho từng đơn hàng
+        const ordersWithItems = await Promise.all(orders.map(async (order) => {
+            const orderItems = await OrderItem.find({ order_id: order._id }).populate('product_id', 'name price');
+            return {
+                order_id: order._id,
+                user: order.user_id,
+                total_price: order.total_price,
+                payment_method: order.payment_method,
+                status: order.status,
+                items: orderItems.map(item => ({
+                    product_id: item.product_id._id,
+                    product_name: item.product_id.name,
+                    quantity: item.quantity,
+                    price: item.price,
+                    total_price: item.price * item.quantity
+                })),
+                createdAt: order.createdAt,
+                updatedAt: order.updatedAt
+            };
+        }));
+
+        res.status(200).json({ orders: ordersWithItems });
+    } catch (error) {
+        console.error('Lỗi lấy danh sách đơn hàng:', error);
+        res.status(500).json({ message: "Lỗi server." });
+    }
+};
+
+
+// Cập nhật trạng thái đơn hàng (cho phép bất kỳ ai có quyền cập nhật)
 exports.updateOrderStatus = async (req, res) => {
     try {
         const orderId = req.params.id;

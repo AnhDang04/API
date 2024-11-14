@@ -31,7 +31,7 @@ exports.getProductById = async (req, res) => {
     }
 };
 
-// Hiển thị danh sách sản phẩm theo ID của category
+// Hiển thị danh sách sản phẩm theo ID của category 
 exports.getProductsByCategoryId = async (req, res) => {
     const { categoryId } = req.params;
 

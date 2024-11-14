@@ -7,7 +7,7 @@ const { getListCategory, addCategory, updateCategory, deleteCategory } = require
 const { getListProduct, addProduct, updateProduct, deleteProduct, getProductById, getProductsByCategoryId } = require('../controllers/productController');
 const { addToCart, viewCart, calculateSelectedTotal, removeProductFromCart  } = require('../controllers/cartController');
 const { authenticateUser } = require('../controllers/auth');
-const { getPaymentMethods, confirmOrder, getOrderDetails, getAllOrders, updateOrderStatus  } = require('../controllers/orderController');
+const { getPaymentMethods, confirmOrder, getOrderDetails, getAllOrders, updateOrderStatus, getAllUsersOrders  } = require('../controllers/orderController');
 const {getTotalRevenue,getRevenueByProduct, getTotalProductsSold   } = require('../controllers/thongkeController');
 const { addComment } = require('../controllers/commentController');
 
@@ -46,8 +46,10 @@ router.post('/order/confirm', authenticateUser, confirmOrder);
 // Lấy thông đơn hàng
 router.get('/order/:orderId', authenticateUser, getOrderDetails);
 router.get('/order', authenticateUser, getAllOrders); 
-//trạng thái đơn hàng
-router.put('/order/:id/status', authenticateUser, updateOrderStatus); 
+router.get('/orders/all', getAllUsersOrders);
+
+
+router.put('/orders/updateStatus/:id', updateOrderStatus);
 
 
 //tổng doanh thu 

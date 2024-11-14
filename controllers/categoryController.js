@@ -19,7 +19,7 @@ exports.addCategory = async (req, res) => {
     let imageUrl = null;
 
     if (file) {
-      imageUrl = `${req.protocol}://localhost:3000/uploads/${file.filename}`; // Đường dẫn hình ảnh
+      imageUrl = `${req.protocol}://192.168.1.249:3000/uploads/${file.filename}`; // Đường dẫn hình ảnh
     }
 
     const newCategory = new Category({
